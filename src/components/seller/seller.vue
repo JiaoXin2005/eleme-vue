@@ -1,6 +1,6 @@
 <template>
-    <div>
-        这是头部
+    <div class="seller">
+        这是seller
     </div>
 </template>
 
@@ -10,6 +10,6 @@ export default {
 }
 </script>
 
-<style >
+<style>
 
 </style>
