@@ -13,7 +13,7 @@
       </div>
     </div>
     <router-view></router-view>
-    <div class="footer">这是footer</div>
+    <div class="content">这是content</div>
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+  .tab{
+    display: flex;
+    width: 100%;
+  }
+  
 </style>

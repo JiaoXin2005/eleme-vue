@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+	div{
+		background: #f60;
+	}
 </style>
