@@ -1,13 +1,14 @@
 <template>
     <div class="seller">
         这是seller
-    </div>
+   </div>
 </template>
 
 <script>
 export default {
 
 }
+
 </script>
 
 <style>

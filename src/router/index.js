@@ -7,11 +7,11 @@ import ratings from '@/components/ratings/ratings'
 Vue.use(Router)
 
 export default new Router({
+    linkActiveClass: 'active',
     // 简单的路由map
     routes: [
         {
             path: '/',
-            name: 'goods',
             component: goods
         },
         {
@@ -28,6 +28,10 @@ export default new Router({
             path: '/ratings',
             name: 'ratings',
             component: ratings
+        },
+        {
+            path: '*',
+            redirect: 'goods'
         }
     ]
 })
