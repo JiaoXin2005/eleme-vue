@@ -30,7 +30,7 @@
                                     <span class="now">¥&nbsp;{{food.price}}</span><span class="old" v-if="food.oldPrice">¥&nbsp;{{food.oldPrice}}</span>
                                 </div>
                                 <div class="cartcontrol-wrapper">
-                                    <cartcontrol :food="food"></cartcontrol>
+                                    <cartcontrol :food="food" @addBall="addBall"></cartcontrol>
                                 </div>
                             </div>
                         </li>
@@ -38,11 +38,12 @@
                 </li>
             </ul>
         </div>
-        <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+        <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="shopcart"></shopcart>
     </div>
 </template>
 
 <script>
+import Vue from 'vue';
 import shopcart from 'components/shopcart/shopcart';
 import cartcontrol from 'components/cartcontrol/cartcontrol';
 import BScroll from 'better-scroll';
@@ -125,6 +126,14 @@ export default {
             let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
             let el = foodList[$index];
             this.foodsScroll.scrollToElement(el,400);
+        },
+        addBall(target) {
+            // 从子组件shopcart传过来的事件
+            // this.$nextTick( () => {
+                // 优化体验
+                this.$refs.shopcart.drop(target); // shopcart组件上的方法
+            // })      
+
         }
     },
     components: {
@@ -160,6 +169,7 @@ export default {
                 font-weight: 700;
                 margin-top: -1px;
                 background: #fff;
+                border-left:3px solid #3190E8;
                 .text{
                     @include border-none();
                 }

@@ -26,6 +26,7 @@ export default {
             }else{
                 this.food.count++;
             }
+            this.$emit('addBall',event.target);
         },
         decreaseCart() {
             if(!event._constructed){
@@ -63,8 +64,8 @@ export default {
         padding-top: 6px;
         line-height: 24px;
         text-align: center;
-        font-size: 10px;
-        color: rgb(147,153,159);
+        font-size: 14px;
+        color: #000;
     }
     .cart-add{
         display: inline-block;
