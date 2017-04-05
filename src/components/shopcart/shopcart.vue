@@ -1,6 +1,6 @@
 <template>
     <div class="shopcart">
-        <div class="content">
+        <div class="content" @click="toggleList">
             <div class="content-left">
                 <div class="logo-wrapper">
                     <div class="logo" :class="{'highlight' : totalCount > 0}">
@@ -11,7 +11,7 @@
                 <div class="price" :class="{'highlight' : totalPrice > 0}">¥{{totalPrice}}元</div>
                 <div class="desc">另需配送费¥{{deliveryPrice}}元</div>
             </div>
-            <div class="content-right">
+            <div class="content-right" @click.stop.prevent="payNow">
                 <div class="pay" :class="payClass">
                     {{payDesc}}
                 </div>
@@ -26,10 +26,37 @@
                 </transition>
             </div>
         </div>
+        <transition name="fold">
+            <div class="shopcart-list" v-show="listShow">
+                <div class="list-header">
+                    <h1 class="title">购物车</h1>
+                    <span class="empty" @click="empty">清空</span>
+                </div>
+                <div class="list-content" ref="listContent">
+                    <ul>
+                        <li class="food border-1px" v-for="food in selectFoods">
+                            <span class="name">{{food.name}}</span>
+                            <div class="price">
+                                <span>¥{{food.price * food.count}}</span>
+                            </div>
+                            <div class="cartcontrol-wrapper">
+                                <cartcontrol :food="food"></cartcontrol>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div class="list-mask" @click="hideList" v-show="listShow"></div>
+        </transition>
     </div>
 </template>
 
 <script>
+import cartcontrol from 'components/cartcontrol/cartcontrol';
+import BScroll from 'better-scroll';
+
 export default {
     data() {
         return{
@@ -40,7 +67,8 @@ export default {
                 {show:false},
                 {show:false},
             ],
-            dropBalls: []
+            dropBalls: [],
+            fold: true
         }
     },
     props: {
@@ -89,9 +117,48 @@ export default {
             }else{
                 return 'enough';
             }
+        },
+        listShow() {
+            if(!this.totalCount){
+                this.fold = true;
+                return false;
+            }
+            let show = !this.fold;
+            if(show){
+                this.$nextTick(() => {
+                    if(!this.scroll){
+                        this.scroll = new BScroll(this.$refs.listContent,{
+                            click: true
+                        })
+                    } else{
+                        this.scroll.refresh();
+                    }
+                })
+            }
+            return show;
         }
     },
     methods: {
+        toggleList() {
+            if(!this.totalCount){
+                return
+            }
+            this.fold = !this.fold;
+        },
+        payNow() {
+            if(this.totalPrice < this.minPrice){
+                return
+            }
+            window.alert(`需支付${this.totalPrice}元`);
+        },
+        empty() {
+            this.selectFoods.forEach((food) => {
+                food.count = 0;
+            })
+        },
+        hideList() {
+            this.fold = !this.fold;
+        },
         drop(el) {
             for (let i = 0; i < this.balls.length; i++) {
                 let ball = this.balls[i];
@@ -139,11 +206,16 @@ export default {
                 el.style.display = 'none';
             }
         }
+    },
+    components: {
+        cartcontrol
     }
 }
 </script>
 
 <style lang="scss">
+@import "../../common/scss/mixin";
+
 .shopcart{
     position: fixed;
     z-index: 50;
@@ -262,6 +334,79 @@ export default {
                 transition: all 0.4s linear;
             }
         }
+    }
+    .shopcart-list{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        transform: translate3d(0,-100%,0);
+        &.fold-enter-active,&.fold-leave-active{
+        transition: all 0.5s;
+        }
+        &.fold-enter,&.fold-leave-active{
+            transform: translate3d(0,0,0);
+        }
+        .list-header{
+            height: 40px;
+            line-height: 40px;
+            padding: 0 18px;
+            background: #f3f5f7;
+            border-bottom: 1px solid rgba(7, 17, 27, 0.1);
+            .title{
+                float: left;
+                font-size: 14px;
+                color: rgb(7,17,27);
+            }
+            .empty{
+                float: right;
+                font-size: 12px;
+                color: rgb(0, 160, 220)
+            }
+        }
+        .list-content{
+            padding: 0 18px;
+            max-height: 217px;
+            overflow: hidden;
+            background: #fff;
+            .food{
+                position: relative;
+                padding: 12px 0;
+                box-sizing: border-box;
+                @include border-1px(rgba(7, 17, 27, 0.1));
+                .name{
+                    line-height: 24px;
+                    font-size: 14px;
+                    color: rgb(7, 17, 27);
+                }
+                .price{
+                    position: absolute;
+                    right: 90px;
+                    bottom: 12px;
+                    line-height: 24px;
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: rgb(240, 20, 20)
+                }
+                .cartcontrol-wrapper{
+                    position: absolute;
+                    right: 0;
+                    bottom: 6px;
+                }
+            }
+        }
+    }
+    .list-mask{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        -webkit-backdrop-filter:blur(10px);
+        opacity: 1;
+        background: rgba(7,17,27,0.6);
     }
 }
 </style>
