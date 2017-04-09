@@ -12,13 +12,16 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view :seller="seller"></router-view>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import vHeader  from './components/header/header.vue'
-import {sellerData} from './service/getData'
+import vHeader  from './components/header/header.vue';
+import {sellerData} from './service/getData';
+import {urlParse} from './common/js/util';
 
 const ERR_OK = 0;
 
@@ -26,7 +29,13 @@ export default {
   name: 'app',
   data() {
     return {
-      seller: {}
+      seller: {
+        id: (() => {
+          let queryParam = urlParse();
+          console.log(queryParam);
+          return queryParam;
+        })()
+      }
     }
   },
   mounted() {

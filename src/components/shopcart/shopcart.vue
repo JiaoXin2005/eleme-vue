@@ -40,7 +40,7 @@
                                 <span>¥{{food.price * food.count}}</span>
                             </div>
                             <div class="cartcontrol-wrapper">
-                                <cartcontrol :food="food"></cartcontrol>
+                                <cartcontrol :food="food" @addBall="addBall"></cartcontrol>
                             </div>
                         </li>
                     </ul>
@@ -158,6 +158,9 @@ export default {
         },
         hideList() {
             this.fold = !this.fold;
+        },
+        addBall(target) {
+            this.drop(target);
         },
         drop(el) {
             for (let i = 0; i < this.balls.length; i++) {
