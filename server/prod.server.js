@@ -3,21 +3,21 @@ var port = process.env.PORT || 80;
 
 var app = express();
 
-var router = express.Router();
-
-router.get('/',function(req,res,next) {
-    req.url = 'index.html';
-    next();
-})
-
-app.use(router);
-
 var appData = require('./data.json')
 var seller = appData.seller;
 var goods  =appData.goods;
 var ratings = appData.ratings;
 
 var apiRoutes = express.Router();
+
+app.use(function (req, res, next) {
+
+  var orgin = /localhost/.test(req.get('origin')) ? 'http://localhost:8090' : 'https://jiaoxin2005.github.io';
+  res.set({
+    'access-control-allow-origin': orgin,
+  })
+  next()
+})
 
 apiRoutes.get('/api/seller',function(req,res) {
   res.json({
@@ -41,9 +41,8 @@ apiRoutes.get('/api/ratings',function(req,res) {
 });
 app.use(apiRoutes);
 
-app.use(express.static('./dist'));
 
-module.exports = app.listen(port,function(err) {
+app.listen(port,function(err) {
     if(err){
         console.log(err);
         return;
