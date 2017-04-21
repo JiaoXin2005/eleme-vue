@@ -20,7 +20,7 @@
 
 * 商品模块
 
-<img src="http://omqf40tss.bkt.clouddn.com/goods-2.gif">
+![评论模块](http://omqf40tss.bkt.clouddn.com/ratings.gif)
 
 * 评论模块
 
