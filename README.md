@@ -30,6 +30,11 @@
 
 ![商家模块](http://omqf40tss.bkt.clouddn.com/seller.gif)
 
+![商家模块](http://omqf40tss.bkt.clouddn.com/goods.gif)
+**玄学分割线**
+![商家模块](http://omqf40tss.bkt.clouddn.com/goods-2.gif)
+
+
 ### 安装步骤
 ```
 # install dependencies
