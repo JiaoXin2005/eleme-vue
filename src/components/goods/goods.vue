@@ -94,6 +94,7 @@ export default {
         this.classMap = ['decrease','discount','special','invoice','guarantee'];
         goodsData().then((res) => {
             if(res.errorno == ERR_OK){
+                console.log(res);
                 this.goods = res.data;
                 this.$nextTick( () => {
                     this._initScroll();

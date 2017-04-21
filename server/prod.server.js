@@ -1,7 +1,14 @@
 var express = require('express');
-var port = process.env.PORT || 80;
+var fs = require('fs');
+var https = require('https');
+var port = process.env.PORT || 443;
+
+var privateKey = fs.readFileSync('./private.pem', 'utf-8');
+var certificate = fs.readFileSync('./file', 'utf-8');
+var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
+var httpsServer = https.createServer(credentials,app);
 
 var appData = require('./data.json')
 var seller = appData.seller;
@@ -42,7 +49,7 @@ apiRoutes.get('/api/ratings',function(req,res) {
 app.use(apiRoutes);
 
 
-app.listen(port,function(err) {
+httpsServer.listen(port,function(err) {
     if(err){
         console.log(err);
         return;
