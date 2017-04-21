@@ -33,6 +33,8 @@
 ![商家模块](http://omqf40tss.bkt.clouddn.com/goods.gif)
 **玄学分割线**
 ![商家模块](http://omqf40tss.bkt.clouddn.com/goods-2.gif)
+**new**
+![商家模块](http://omqf40tss.bkt.clouddn.com/goods-3.gif)
 
 
 ### 安装步骤
