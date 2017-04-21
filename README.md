@@ -17,9 +17,10 @@
 
 ### 项目截图
 ***
+
 * 商品模块
 
-![商品模块](http://omqf40tss.bkt.clouddn.com/goods-2.gif)
+<img src="http://omqf40tss.bkt.clouddn.com/goods-2.gif">
 
 * 评论模块
 
